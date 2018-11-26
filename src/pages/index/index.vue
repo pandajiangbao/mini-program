@@ -18,7 +18,7 @@
       <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
       <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
     </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
+    <button @tap="toVuex" class="counter">去往Vuex示例页面</button>
   </div>
 </template>
 
@@ -39,8 +39,10 @@ export default {
 
   methods: {
     bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
+      wx.navigateTo({ url: '../logs/main' })
+    },
+    toVuex () {
+      wx.navigateTo({ url: '../counter/main' })
     },
     getUserInfo () {
       // 调用登录接口

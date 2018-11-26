@@ -2,12 +2,13 @@
   "pages": [
     "pages/index/main",
     "pages/logs/main",
-    "pages/counter/main"
+    "pages/counter/main",
+    "pages/detail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarBackgroundColor": "#E92B90",
+    "navigationBarTitleText": "胖达小屋",
     "navigationBarTextStyle": "black"
   }
 }

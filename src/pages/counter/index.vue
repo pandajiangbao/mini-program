@@ -1,40 +1,59 @@
 <template>
-  <div class="counter-warp">
-    <p>Vuex counter：{{ count }}</p>
-    <p>
-      <button @click="increment">+</button>
-      <button @click="decrement">-</button>
-    </p>
-
-    <a href="/pages/index/main" class="home">去往首页</a>
+  <div class="swiperContainer">
+    <swiper indicator-dots indicator-color="pink" autoplay circular interval="800">
+        <block v-for="(item,index) in URLs"  :index="index" :key="index">
+            <swiper-item>
+                <image :src="item"/>
+            </swiper-item>
+        </block>
+    </swiper>
+    <panda v-for="(item,index) in pandaList.pandaData" :key="index" :item="item" :index="index"/>
   </div>
 </template>
 
 <script>
-// Use Vuex
-import store from './store'
-
+import {mapState} from 'vuex'
+import panda from '@/components/panda'
 export default {
-  computed: {
-    count () {
-      return store.state.count
+  data () {
+    return {
+      URLs: [
+        '/static/image/index/panda0.JPG',
+        '/static/image/index/panda1.jpeg',
+        '/static/image/index/panda2.jpeg',
+        '/static/image/index/panda3.jpeg'
+      ]
     }
   },
+  computed: {
+    ...mapState(['pandaList'])
+  },
+  beforeMount () {
+    this.$store.dispatch('getPandaList')
+    console.log('index')
+    console.log(this.pandaList)
+  },
   methods: {
-    increment () {
-      store.commit('increment')
-    },
-    decrement () {
-      store.commit('decrement')
+    toHome () {
+      wx.navigateBack({
+        delta: 1 // 返回的页面数，如果 delta 大于现有页面数，则返回到首页,
+      })
     }
+  },
+  components: {
+    panda
   }
 }
 </script>
 
 <style>
-.counter-warp {
-  text-align: center;
-  margin-top: 100px;
+.swiperContainer swiper{
+  width:100%;
+  height:400rpx;
+}
+.swiperContainer swiper image{
+  width:100%;
+  height:100%;
 }
 .home {
   display: inline-block;
