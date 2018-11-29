@@ -3,7 +3,9 @@
     "pages/index/main",
     "pages/logs/main",
     "pages/counter/main",
-    "pages/detail/main"
+    "pages/detail/main",
+    "pages/movies/main",
+    "pages/moviesDetail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -23,6 +25,12 @@
       {
         "pagePath": "pages/counter/main",
         "text": "列表",
+        "iconPath": "",
+        "selectedIconPath": ""
+      },
+      {
+        "pagePath": "pages/movies/main",
+        "text": "电影",
         "iconPath": "",
         "selectedIconPath": ""
       }

@@ -7,7 +7,7 @@
             </swiper-item>
         </block>
     </swiper>
-    <panda v-for="(item,index) in pandaList.pandaData" :key="index" :item="item" :index="index"/>
+    <panda v-for="(item,index) in pandaList" :key="index" :item="item" :index="index"/>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
-  <div @tap="toDetail">
+  <div class="pandaListContainer" @tap="toDetail">
     <p>{{item.title}}</p>
-    <img :src="item.url" alt="">
+    <img class="pandaListImgContainer" :src="item.url" alt="">
     <p>{{item.date}}</p>
   </div>
 </template>
@@ -18,4 +18,11 @@ export default {
 </script>
 
 <style scoped>
+.pandaListContainer{
+  padding: 10rpx;
+  border: 1rpx solid #E92B90;
+}
+.pandaListImgContainer{
+  width:100%
+}
 </style>

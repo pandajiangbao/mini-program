@@ -20,7 +20,7 @@ export default {
     }
   },
   beforeMount () {
-    this.detailObj = this.pandaList.pandaData[this.$mp.query.index]
+    this.detailObj = this.pandaList[this.$mp.query.index]
     let oldStorage = wx.getStorageSync('isStared')
     if (!oldStorage) {
       wx.setStorage({

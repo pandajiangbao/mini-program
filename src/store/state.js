@@ -1,3 +1,4 @@
 export default {
-  pandaList: []
+  pandaList: [],
+  movies: []
 }

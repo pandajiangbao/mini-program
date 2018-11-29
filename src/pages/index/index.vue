@@ -18,7 +18,7 @@
       <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
       <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
     </form>
-    <button @tap="toVuex" class="counter">去往Vuex示例页面</button>
+    <button @tap="toVuex" class="counter">去往胖达列表页面</button>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ import card from '@/components/card'
 export default {
   data () {
     return {
-      motto: 'Hello World',
+      motto: '胖达酱',
       userInfo: {}
     }
   },
@@ -87,7 +87,7 @@ export default {
 }
 
 .usermotto {
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 .form-control {
