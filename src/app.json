@@ -10,5 +10,22 @@
     "navigationBarBackgroundColor": "#E92B90",
     "navigationBarTitleText": "胖达小屋",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "selectedColor":"#E92B90",
+    "list": [
+      {
+      "pagePath": "pages/index/main",
+      "text": "首页",
+      "iconPath": "",
+      "selectedIconPath": ""
+      },
+      {
+        "pagePath": "pages/counter/main",
+        "text": "列表",
+        "iconPath": "",
+        "selectedIconPath": ""
+      }
+    ]
   }
 }

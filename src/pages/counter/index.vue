@@ -30,8 +30,6 @@ export default {
   },
   beforeMount () {
     this.$store.dispatch('getPandaList')
-    console.log('index')
-    console.log(this.pandaList)
   },
   methods: {
     toHome () {

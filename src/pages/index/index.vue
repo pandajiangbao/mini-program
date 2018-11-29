@@ -42,7 +42,7 @@ export default {
       wx.navigateTo({ url: '../logs/main' })
     },
     toVuex () {
-      wx.navigateTo({ url: '../counter/main' })
+      wx.switchTab({ url: '../counter/main' })
     },
     getUserInfo () {
       // 调用登录接口
@@ -87,7 +87,7 @@ export default {
 }
 
 .usermotto {
-  margin-top: 150px;
+  margin-top: 100px;
 }
 
 .form-control {
