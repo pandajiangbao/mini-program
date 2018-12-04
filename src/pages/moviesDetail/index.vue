@@ -1,18 +1,18 @@
 <template>
-    <div class="movie-detail-container">
-      <img class="movie-img" :src="moviesDetailObj.images.large" alt="">
-      <p class="movie-name">{{moviesDetailObj.original_title}}</p>
-      <div class="detail-content">
-        <span>评分:{{moviesDetailObj.rating.average}}</span>
-        <span>导演:{{moviesDetailObj.directors[0].name}}</span>
-        <span>主演:{{moviesDetailObj.casts[0].name}} {{moviesDetailObj.casts[1].name}} {{moviesDetailObj.casts[2].name}}</span>
-      </div>
-      <button>我要观影</button>
+  <div class="movie-detail-container">
+    <img class="movie-img" :src="moviesDetailObj.images.large" alt>
+    <p class="movie-name">{{moviesDetailObj.original_title}}</p>
+    <div class="detail-content">
+      <span>评分:{{moviesDetailObj.rating.average}}</span>
+      <span>导演:{{moviesDetailObj.directors[0].name}}</span>
+      <span>主演:{{moviesDetailObj.casts[0].name}} {{moviesDetailObj.casts[1].name}} {{moviesDetailObj.casts[2].name}}</span>
     </div>
+    <button>我要观影</button>
+  </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 export default {
   props: [],
   data () {
@@ -23,36 +23,30 @@ export default {
   computed: {
     ...mapState(['movies'])
   },
-  created () {
-  },
+  created () {},
   beforeMount () {
     this.moviesDetailObj = this.movies[this.$mp.query.index]
   },
-  watch: {
-
-  },
-  methods: {
-
-  },
-  components: {
-
-  }
+  watch: {},
+  methods: {},
+  components: {}
 }
 </script>
 
 <style scoped>
-.movie-img{
-  width: 100%;
-  height: 500rpx;
+.movie-img {
+  width: 80%;
+  height: 600rpx;
+  margin-left: 10%;
 }
 
-.movie-name{
+.movie-name {
   font-size: 36rpx;
   text-align: center;
   font-weight: bold;
 }
 
-.detail-content{
+.detail-content {
   display: flex;
   flex-direction: column;
   margin-left: 20%;
@@ -61,10 +55,12 @@ export default {
   font-size: 26rpx;
 }
 
-button{
+button {
   widows: 70%;
+  width: 80%;
   height: 80rpx;
-  background: #E92B90;
+  margin-left: 10%;
+  background: #e92b90;
   line-height: 80rpx;
   color: #fff;
   font-size: 28rpx;
