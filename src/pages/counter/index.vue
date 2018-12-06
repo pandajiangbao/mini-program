@@ -18,10 +18,10 @@ export default {
   data () {
     return {
       URLs: [
-        '/static/image/index/panda0.JPG',
-        '/static/image/index/panda1.jpeg',
+        '/static/image/index/panda1.JPG',
         '/static/image/index/panda2.jpeg',
-        '/static/image/index/panda3.jpeg'
+        '/static/image/index/panda3.jpeg',
+        '/static/image/index/panda4.jpeg'
       ]
     }
   },

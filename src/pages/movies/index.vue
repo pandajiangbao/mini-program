@@ -4,7 +4,7 @@
       <img class="movies-img" :src="item.images.large" alt="">
       <div class="movies-info">
         <p class="movies-name">{{item.original_title}}</p>
-        <p class="movies-year">年份:{{item.year}}</p>
+        <p class="movies-year">上映年份:{{item.year}}</p>
         <p class="movies-dir">导演:{{item.directors[0].name}}</p>
       </div>
       <p class="movies-rating">{{item.rating.average}}</p>
@@ -13,24 +13,18 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   props: [],
   data () {
     return {
-      movies: []
     }
   },
-  beforeMount () {
-    this.$fly.get('http://t.yushu.im/v2/movie/top250')
-      .then((response) => {
-        this.$store.dispatch('getMovies', response.data.subjects)
-        this.movies = response.data.subjects
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+  mounted () {
+    this.$store.dispatch('getMovies')
   },
   computed: {
+    ...mapState(['movies'])
   },
   methods: {
     toMoviesDetail (index) {

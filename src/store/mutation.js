@@ -1,9 +1,18 @@
-import {RECEIVE_LIST, RECEIVE_MOVIES} from './mutation-type'
+import * as types from './mutation-types'
+
 export default {
-  [RECEIVE_LIST] (state, pandaList) {
-    state.pandaList = pandaList
+  [types.RECEIVE_LIST] (state, pandaList) {
+    if (pandaList && pandaList.length > 0) {
+      state.pandaList = pandaList
+    } else {
+      state.pandaList = null
+    }
   },
-  [RECEIVE_MOVIES] (state, moviesData) {
-    state.movies = moviesData
+  [types.RECEIVE_MOVIES] (state, moviesData) {
+    if (moviesData && moviesData.length > 0) {
+      state.movies = moviesData
+    } else {
+      state.movies = null
+    }
   }
 }
