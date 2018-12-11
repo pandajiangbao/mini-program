@@ -1,0 +1,3 @@
+[submodule "mini-program-server"]
+	path = mini-program-server
+	url = git@github.com:pandajiangbao/mini-program-server.git
