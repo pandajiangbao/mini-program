@@ -1,6 +1,29 @@
 <script>
 export default {
   created () {
+    // 调用登录接口
+    wx.login({
+      success: res => {
+        if (res.code) {
+          this.$fly.post(
+            'http://localhost:8082/api/login',
+            {code: res.code,
+              oldToken: wx.getStorageSync('token')},
+            {headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            }})
+            .then((response) => {
+              console.log('response :', response)
+              wx.setStorageSync('token', response.data.token)
+              // token放入header中
+              this.$fly.config.headers = {token: response.data.token}
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
+      }
+    })
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())

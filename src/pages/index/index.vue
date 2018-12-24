@@ -1,8 +1,12 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
-
     <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
+      <img
+        class="userinfo-avatar"
+        v-if="userInfo.avatarUrl"
+        :src="userInfo.avatarUrl"
+        background-size="cover"
+      >
       <div class="userinfo-nickname">
         <card :text="userInfo.nickName"></card>
       </div>
@@ -15,9 +19,10 @@
     </div>
 
     <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
+      <input type="text" class="form-control" v-model="motto" placeholder="v-model">
+      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy">
     </form>
+    <!-- <button open-type="getUserInfo" lang="zh_CN" @tap="onGotUserInfo">获取用户信息</button> -->
     <button @tap="toVuex" class="counter">去往胖达列表页面</button>
   </div>
 </template>
@@ -45,14 +50,10 @@ export default {
       wx.switchTab({ url: '../counter/main' })
     },
     getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
+      wx.getUserInfo({
+        success: res => {
+          console.log(res)
+          this.userInfo = res.userInfo
         }
       })
     },
@@ -62,7 +63,6 @@ export default {
   },
 
   created () {
-    // 调用应用实例的方法获取全局数据
     this.getUserInfo()
   }
 }

@@ -1,0 +1,26 @@
+用户
+地址
+店铺
+商品
+分类
+优惠券
+收藏
+评论
+购物车
+订单
+cf45dc094a613c1464354f4ec4cbff50
+vscode
+pycharm
+idea
+wechat devtool
+mysql
+jdk
+python
+node
+vue-cli
+redis
+ssx
+chrome
+telegram
+git
+sourcetree
