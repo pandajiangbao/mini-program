@@ -13,7 +13,10 @@ export default {
               'content-type': 'application/x-www-form-urlencoded'
             }})
             .then((response) => {
-              console.log('response :', response)
+              if (response.data.token) {
+                console.log('response :', response)
+                console.log('登录成功')
+              }
               wx.setStorageSync('token', response.data.token)
               // token放入header中
               this.$fly.config.headers = {token: response.data.token}

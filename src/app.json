@@ -5,12 +5,13 @@
     "pages/counter/main",
     "pages/detail/main",
     "pages/movies/main",
-    "pages/moviesDetail/main"
+    "pages/moviesDetail/main",
+    "pages/my/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#E92B90",
-    "navigationBarTitleText": "胖达小屋",
+    "navigationBarTitleText": "AnimeStore",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -20,19 +21,25 @@
       "pagePath": "pages/index/main",
       "text": "首页",
       "iconPath": "static/icon/tabBar/index.png",
-      "selectedIconPath": "static/icon/tabBar/indexHL.png"
+      "selectedIconPath": "static/icon/tabBar/index@selected.png"
       },
       {
         "pagePath": "pages/counter/main",
-        "text": "熊猫",
-        "iconPath": "static/icon/tabBar/panda.png",
-        "selectedIconPath": "static/icon/tabBar/pandaHL.png"
+        "text": "分类",
+        "iconPath": "static/icon/tabBar/category.png",
+        "selectedIconPath": "static/icon/tabBar/category@selected.png"
       },
       {
         "pagePath": "pages/movies/main",
-        "text": "电影",
-        "iconPath": "static/icon/tabBar/movie.png",
-        "selectedIconPath": "static/icon/tabBar/movieHL.png"
+        "text": "购物车",
+        "iconPath": "static/icon/tabBar/cart.png",
+        "selectedIconPath": "static/icon/tabBar/cart@selected.png"
+      },
+      {
+        "pagePath": "pages/my/main",
+        "text": "我的",
+        "iconPath": "static/icon/tabBar/my.png",
+        "selectedIconPath": "static/icon/tabBar/my@selected.png"
       }
     ]
   }
