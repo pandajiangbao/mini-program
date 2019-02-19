@@ -1,11 +1,14 @@
 <template>
   <div>
-    <p>{{detailObj.title}}</p>
-    <p>{{detailObj.date}}</p>
+    <img class="product-img" :src="product.img" alt>
+    <p class="product-name">{{product.title}}</p>
+    <div class="product-content">
+      <span>价格:{{product.price}}¥</span>
+      <span>销量:{{product.sales}}</span>
+      <span>库存:{{product.stock}}</span>
+    </div>
     <button @tap="handleStared" v-if="isStared">已收藏</button>
     <button @tap="handleStared" v-else>点击收藏</button>
-    <img class="imgContainer" :src="detailObj.url" alt="">
-    <p>{{detailObj.detail}}</p>
   </div>
 </template>
 
@@ -15,12 +18,12 @@ export default {
   props: [],
   data () {
     return {
-      detailObj: {},
+      product: {},
       isStared: false
     }
   },
   beforeMount () {
-    this.detailObj = this.pandaList[this.$mp.query.index]
+    this.product = this.productList[this.$mp.query.index]
     let oldStorage = wx.getStorageSync('isStared')
     if (!oldStorage) {
       wx.setStorage({
@@ -32,7 +35,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['pandaList'])
+    ...mapState(['productList'])
   },
   methods: {
     handleStared () {
@@ -56,8 +59,39 @@ export default {
 </script>
 
 <style scoped>
-.imgContainer{
-  width: 100%;
+.product-img {
+  width: 80%;
+  height: 600rpx;
+  margin-left: 10%;
+}
+
+.product-name {
+  width: 80%;
+  margin-left: 10%;
+  font-size: 36rpx;
+  text-align: center;
+  font-weight: bold;
+}
+
+.product-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20%;
+  margin-top: 30rpx;
+  line-height: 50rpx;
+  font-size: 26rpx;
+}
+
+button {
+  widows: 70%;
+  width: 80%;
+  height: 80rpx;
+  margin-left: 10%;
+  background: #e92b90;
+  line-height: 80rpx;
+  color: #fff;
+  font-size: 28rpx;
+  margin-top: 20rpx;
 }
 </style>
 

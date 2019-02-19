@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div @tap="toMoviesDetail(index)" v-for="(item, index) in movies" :key="index" class="movies-container">
-      <img class="movies-img" :src="item.images.large" alt="">
+    <div class="movies-container" @tap="toMoviesDetail(index)" v-for="(item, index) in movies" :key="index">
+      <img class="movies-img" :src="item.images.large">
       <div class="movies-info">
         <p class="movies-name">{{item.original_title}}</p>
         <p class="movies-year">上映年份:{{item.year}}</p>
@@ -24,7 +24,9 @@ export default {
     this.$store.dispatch('getMovies')
   },
   computed: {
-    ...mapState(['movies'])
+    ...mapState([
+      'movies'
+    ])
   },
   methods: {
     toMoviesDetail (index) {
@@ -54,7 +56,6 @@ export default {
 .movies-name{
   font-size: 32rpx;
   color: #333;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }

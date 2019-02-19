@@ -7,43 +7,49 @@
         :src="userInfo.avatarUrl"
         background-size="cover"
       >
-      <div class="userinfo-nickname">
-        <p>{{userInfo.nickName}}</p>
+      <div class="userinfo-block">
+        <div class="userinfo-detail">
+          <div class="userinfo-nickname">
+            <p>{{userInfo.nickName}}</p>
+          </div>
+          <img
+            class="userinfo-gender"
+            v-if="userInfo.gender != 0"
+            :src="userInfo.gender == 1?'/static/icon/my/man.png':'/static/icon/my/woman.png'"
+          >
+        </div>
+        <div class="userinfo-location">
+            <p>{{userInfo.province}} {{userInfo.city}}</p>
+        </div>
       </div>
     </div>
-    <button>添加地址</button>
+    <button>我的订单</button>
+    <button>我的地址</button>
+    <button>我的优惠</button>
+    <button>我的收藏</button>
     <button>关于我们</button>
   </div>
 </template>
 
 <script>
 import card from '@/components/card'
-
+import { mapState } from 'vuex'
 export default {
   props: [],
   data () {
     return {
-      userInfo: {}
     }
   },
   created () {
-    this.getUserInfo()
   },
   mounted () {
   },
   computed: {
+    ...mapState([
+      'userInfo'
+    ])
   },
   methods: {
-    getUserInfo () {
-      wx.getUserInfo({
-        success: res => {
-          console.log(res)
-          this.userInfo = res.userInfo
-          console.log(this.userInfo)
-          console.log('card :', card)
-        }
-      })
-    }
   },
   comments: {
     card
@@ -52,27 +58,45 @@ export default {
 </script>
 
 <style scoped>
-.user-info{
-  background-color: #E92B90;
+.user-info {
+  background-color: #e92b90;
   color: #fff;
   display: flex;
   align-items: center;
-  padding: 30rpx;
+  padding: 20rpx;
   font-size: 28rpx;
 }
 .userinfo-avatar {
   width: 128rpx;
   height: 128rpx;
-  margin: 20rpx;
+  margin: 10rpx;
   border-radius: 50%;
 }
 
+.userinfo-block {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20rpx;
+  font-size: 28rpx;
+}
+
+.userinfo-detail {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  font-size: 28rpx;
+}
+
 .userinfo-nickname {
-  padding: 30rpx;
   color: #aaa;
 }
 
-.usermotto {
-  margin-top: 50px;
+.userinfo-gender {
+  padding: 20rpx;
+  width: 28rpx;
+  height: 28rpx;
 }
 </style>

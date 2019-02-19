@@ -2,7 +2,7 @@
   "pages": [
     "pages/index/main",
     "pages/logs/main",
-    "pages/counter/main",
+    "pages/category/main",
     "pages/detail/main",
     "pages/movies/main",
     "pages/moviesDetail/main",
@@ -20,11 +20,11 @@
       {
       "pagePath": "pages/index/main",
       "text": "首页",
-      "iconPath": "static/icon/tabBar/index.png",
-      "selectedIconPath": "static/icon/tabBar/index@selected.png"
+      "iconPath": "static/icon/tabBar/home.png",
+      "selectedIconPath": "static/icon/tabBar/home@selected.png"
       },
       {
-        "pagePath": "pages/counter/main",
+        "pagePath": "pages/category/main",
         "text": "分类",
         "iconPath": "static/icon/tabBar/category.png",
         "selectedIconPath": "static/icon/tabBar/category@selected.png"
