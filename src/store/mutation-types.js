@@ -1,4 +1,6 @@
-export const RECEIVE_USERINFO = 'receive_userinfo'
+export const RECEIVE_USER_ID = 'receive_user_id'
+export const RECEIVE_USER_INFO = 'receive_user_info'
 export const RECEIVE_PRODUCTS = 'receive_products'
 export const RECEIVE_PRODUCT_CATEGORIES = 'receive_product_categories'
+export const RECEIVE_SHOPPING_CARTS = 'receive_shopping_carts'
 export const RECEIVE_MOVIES = 'receive_movies'

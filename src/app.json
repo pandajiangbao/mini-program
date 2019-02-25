@@ -1,9 +1,13 @@
 {
   "pages": [
-    "pages/index/main",
+    "pages/home/main",
     "pages/logs/main",
     "pages/category/main",
-    "pages/detail/main",
+    "pages/productDetail/main",
+    "pages/shoppingCart/main",
+    "pages/pay/main",
+    "pages/order/main",
+    "pages/orderDetail/main",
     "pages/movies/main",
     "pages/moviesDetail/main",
     "pages/my/main"
@@ -18,7 +22,7 @@
     "selectedColor":"#E92B90",
     "list": [
       {
-      "pagePath": "pages/index/main",
+      "pagePath": "pages/home/main",
       "text": "首页",
       "iconPath": "static/icon/tabBar/home.png",
       "selectedIconPath": "static/icon/tabBar/home@selected.png"
@@ -30,7 +34,7 @@
         "selectedIconPath": "static/icon/tabBar/category@selected.png"
       },
       {
-        "pagePath": "pages/movies/main",
+        "pagePath": "pages/shoppingCart/main",
         "text": "购物车",
         "iconPath": "static/icon/tabBar/cart.png",
         "selectedIconPath": "static/icon/tabBar/cart@selected.png"

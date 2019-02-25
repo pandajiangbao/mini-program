@@ -1,10 +1,1 @@
-GET  http://localhost:8082/api/pandas
-Content-Type: application/json
-token: 119589dd-84d7-4aaa-ae42-4c2933b08e02
-
-{
-  "receiver":"aaa",
-  "phoneNumber":"19565431520",
-  "detail":"sadsa",
-  "userId":"3"
-}
+GET  http://localhost:8082/products

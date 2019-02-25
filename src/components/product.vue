@@ -13,7 +13,7 @@ export default {
   props: ['product', 'index'],
   methods: {
     toDetail () {
-      wx.navigateTo({ url: '../detail/main?index=' + this.index })
+      wx.navigateTo({ url: '../productDetail/main?index=' + this.index })
     }
   }
 }

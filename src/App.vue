@@ -1,7 +1,12 @@
 <script>
-import {mapMutations} from 'vuex'
+import {mapState, mapMutations, mapActions} from 'vuex'
 import * as types from './store/mutation-types'
 export default {
+  computed: {
+    ...mapState([
+      'userId'
+    ])
+  },
   created () {
     // 调用登录接口
     wx.login({
@@ -24,10 +29,13 @@ export default {
                 if (response.data.token) {
                   console.log('登录成功')
                 }
+                // token存入storage并放入header中
                 wx.setStorageSync('token', response.data.token)
-                wx.setStorageSync('userId', response.data.userId)
-                // token放入header中
                 this.$fly.config.headers = {token: response.data.token}
+                // userId存入vuex中
+                this.setUserId(response.data.userId)
+                // 获取购物车内容
+                this.getShoppingCartList(this.userId)
               })
               .catch((error) => {
                 console.log(error)
@@ -39,8 +47,12 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setUserInfo: types.RECEIVE_USERINFO // map `this.add()` to `this.$store.commit('increment')`
-    })
+      setUserId: types.RECEIVE_USER_ID,
+      setUserInfo: types.RECEIVE_USER_INFO
+    }),
+    ...mapActions([
+      'getShoppingCartList'
+    ])
   }
 }
 </script>
