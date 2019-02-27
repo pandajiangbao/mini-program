@@ -6,12 +6,12 @@
     <van-tabs @change="onChange">
       <van-tab title="全部">
         <div class="product-container">
-          <product v-for="(item,index) in productList" :key="index" :product="item" :index="index"></product>
+          <product v-for="(item,index) in productList" :key="index" :product="item" :index="index" :status="0"></product>
         </div>
       </van-tab>
       <van-tab v-for="(item,index) in productCategoryList" :key="index" :title="item.name">
         <div class="product-container">
-          <product v-for="(item,index2) in productListByCategoty" :key="index2" :product="item" :index="index2"></product>
+          <product v-for="(item,index2) in productListByCategory" :key="index2" :product="item" :index="index2" :status="1"></product>
         </div>
       </van-tab>
     </van-tabs>
@@ -39,31 +39,22 @@ import product from '@/components/product'
 export default {
   data () {
     return {
-      productListByCategoty: []
     }
   },
   computed: {
-    ...mapState(['productList', 'productCategoryList'])
+    ...mapState(['productList', 'productListByCategory', 'productCategoryList'])
   },
   mounted () {
     this.getProductList()
     this.getProductCategoryList()
   },
   methods: {
-    ...mapActions(['getProductList', 'getProductCategoryList']),
-
+    ...mapActions(['getProductList', 'getProductListByCategory', 'getProductCategoryList']),
     toSearch () {
       console.log(111)
     },
-
     onChange (event) {
-      this.$fly.get(`/categories/${event.mp.detail.index}/products`)
-        .then((response) => {
-          this.productListByCategoty = response.data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      this.getProductListByCategory(event.mp.detail.index)
     }
   },
 

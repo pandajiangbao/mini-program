@@ -19,51 +19,53 @@
     <van-goods-action>
       <van-goods-action-icon icon="home-o" text="首页" @tap="toHome"/>
       <van-goods-action-icon icon="cart-o" text="购物车" @tap="toShoppingCart"/>
-      <van-goods-action-button text="加入购物车" type="warning" @tap="onShoppingCart"/>
-      <van-goods-action-button text="立即购买" @tap="onBuy"/>
+      <van-goods-action-button text="加入购物车" type="warning" @tap="show=true;showState=0;"/>
+      <van-goods-action-button text="立即购买" @tap="show=true;showState=1;"/>
     </van-goods-action>
     <van-action-sheet
       :show="show"
       title="请选择数量规格"
-      :actions="actions"
       cancel-text="确认"
-      @close="onClose"
+      @cancel="onConfirm"
+      @close="show = false"
     >
-      <view>一些内容</view>
+      <div class="action-sheet-container">
+        <img class="action-img" :src="product.img">
+        <div class="action-content">
+          <p class="action-title">{{product.title}}</p>
+          <p class="action-stock">库存:{{product.stock}}</p>
+          <p class="action-price">单价:¥{{product.price}}</p>
+          <div class="action-amount">
+            <van-button round size="mini" @tap="handleAmount">-</van-button>
+            {{amount}}
+            <van-button round size="mini" @tap="amount++">+</van-button>
+          </div>
+        </div>
+      </div>
     </van-action-sheet>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   props: [],
   data () {
     return {
       product: {},
+      amount: 1,
       isStared: false,
       show: false,
-      actions: [
-        {
-          name: '选项'
-        },
-        {
-          name: '分享',
-          subname: '描述信息',
-          openType: 'share'
-        },
-        {
-          loading: true
-        },
-        {
-          name: '禁用选项',
-          disabled: true
-        }
-      ]
+      showState: Number, // 0为购物车,1为订单
+      shoppingCart: {}
     }
   },
-  beforeMount () {
-    this.product = this.productList[this.$mp.query.index]
+  mounted () {
+    if (this.$mp.query.status === '1') {
+      this.product = this.productListByCategory[this.$mp.query.index]
+    } else if (this.$mp.query.status === '0') {
+      this.product = this.productList[this.$mp.query.index]
+    }
     let oldStorage = wx.getStorageSync('isStared')
     if (!oldStorage) {
       wx.setStorage({
@@ -74,24 +76,68 @@ export default {
       this.isStared = oldStorage[this.$mp.query.index]
     }
   },
+  onUnload () {
+    this.amount = 1
+  },
   computed: {
-    ...mapState(['productList'])
+    ...mapState([
+      'userId',
+      'productList',
+      'productListByCategory',
+      'shoppingCartList'
+    ]),
+    sum: function () {
+      return (this.product.price * this.amount).toFixed(2)
+    }
   },
   methods: {
+    ...mapActions([
+      'getShoppingCartList',
+      'addShoppingCart'
+    ]),
     toHome () {
       wx.switchTab({ url: '../home/main' })
     },
     toShoppingCart () {
-      console.log('购物车')
+      wx.switchTab({ url: '../shoppingCart/main' })
     },
-    onClose () {
-      this.show = false
+    handleAmount () {
+      if (this.amount > 1) {
+        this.amount--
+      }
     },
-    onShoppingCart () {
-      this.show = true
-    },
-    onBuy () {
-      this.show = false
+    onConfirm () {
+      if (this.showState === 0) {
+        this.addShoppingCart(
+          {
+            sum: this.product.price * this.amount,
+            amount: this.amount,
+            pid: this.product.id,
+            uid: this.userId
+          })
+          .then(() => {
+            // 刷新购物车
+            return this.getShoppingCartList(this.userId)
+          })
+          .then(() => {
+            wx.showToast({
+              title: '添加成功', // 提示的内容,
+              duration: 1500, // 延迟时间,
+              mask: true // 显示透明蒙层，防止触摸穿透,
+            })
+            this.show = false
+          })
+          .catch(() => {
+            wx.showToast({
+              title: '网络延迟,请稍后再试', // 提示的内容,
+              icon: 'none',
+              duration: 1500, // 延迟时间,
+              mask: true // 显示透明蒙层，防止触摸穿透,
+            })
+          })
+      } else if (this.showState === 1) {
+        console.log('buy')
+      }
     },
     handleStared () {
       this.isStared = !this.isStared
@@ -113,7 +159,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
 .container {
   display: flex;
   flex-direction: column;
@@ -180,6 +226,39 @@ button {
   color: #fff;
   font-size: 28rpx;
   margin-top: 20rpx;
+}
+.action-sheet-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.action-img {
+  width: 180rpx;
+  height: 180rpx;
+}
+.action-content {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  .action-title {
+    font-size: 32rpx;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .action-stock {
+    font-size: 24rpx;
+    color: #999;
+  }
+  .action-price {
+    font-size: 24rpx;
+    color: red;
+  }
+  .action-amount {
+    font-size: 24rpx;
+  }
 }
 </style>
 

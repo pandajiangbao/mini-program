@@ -16,6 +16,7 @@
       bind:click="onClose"
     />
   </view>
+  <slot/>
   <view wx:if="{{ actions && actions.length }}">
     <!-- button外包一层view，防止actions动态变化，导致渲染时button被打散 -->
     <button
@@ -40,5 +41,4 @@
   >
     {{ cancelText }}
   </view>
-  <slot />
 </van-popup>

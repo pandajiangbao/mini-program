@@ -16,6 +16,7 @@
         <van-button round size="mini">+</van-button>
         <p class="product-priceSum">
           <van-checkbox class="product-selected" :value="item.isSelected" @change="onChange(index)"></van-checkbox>
+          <van-button class="product-delete" round size="mini" type="danger" @tap="onDelete(item.id)">删除</van-button>
           总价:¥{{item.priceSum}}
         </p>
       </view>
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   props: [],
   data () {
@@ -41,16 +42,25 @@ export default {
   mounted () {
   },
   computed: {
-    ...mapState(['shoppingCartList']),
+    ...mapState([
+      'userId',
+      'shoppingCartList'
+    ]),
     totalPrice: function () {
-      let sum = 0.00
+      let sum = 0
       this.shoppingCartList.forEach((item, index) => {
-        sum = item.productAmount * item.product.price + sum
+        sum = item.priceSum + sum
+        console.log('sum :', sum)
       })
-      return sum
+      return parseInt(sum).toFixed(2)
     }
   },
   methods: {
+    ...mapActions([
+      'getShoppingCartList',
+      'updateShoppingCart',
+      'deleteShoppingCart'
+    ]),
     onChange (index) {
       console.log(index)
       this.shoppingCartList[index].isSelected = !this.shoppingCartList[index]
@@ -58,6 +68,13 @@ export default {
     },
     onAllChange () {
       this.allSelected = !this.allSelected
+    },
+    onDelete (id) {
+      this.deleteShoppingCart(id)
+        .then(() => {
+          // 刷新购物车
+          return this.getShoppingCartList(this.userId)
+        })
     }
   }
 }
@@ -83,6 +100,13 @@ export default {
 }
 .product-selected {
   float: left;
+}
+.product-delete{
+  float: left;
+  margin-left:10rpx;
+}
+.all-selected{
+  margin-left:60rpx;
 }
 van-submit-bar {
   width: 100%;

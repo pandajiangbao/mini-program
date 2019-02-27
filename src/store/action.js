@@ -11,6 +11,15 @@ export default {
         console.log(error)
       })
   },
+  getProductListByCategory ({commit}, index) {
+    fly.get(`/categories/${index}/products`)
+      .then((response) => {
+        commit(types.RECEIVE_PRODUCTS_BY_CATEGORY, response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
   getProductCategoryList ({commit}) {
     fly.get('/categories')
       .then((response) => {
@@ -29,40 +38,39 @@ export default {
         console.log(error)
       })
   },
-  addShoppingCartList (shoppingCart) {
-    fly.post('/shoppingCarts', {shoppingCart: shoppingCart})
+  addShoppingCart ({commit}, {sum, amount, pid, uid}) {
+    return fly.post('/shoppingCarts', {
+      priceSum: sum,
+      productAmount: amount,
+      productId: pid,
+      userId: uid
+    })
       .then((response) => {
         console.log(response.data)
       })
       .catch((error) => {
         console.log(error)
+        Promise.reject(error)
       })
   },
-  updateShoppingCartList (id, shoppingCart) {
-    fly.put('/shoppingCarts/' + id, {shoppingCart: shoppingCart})
+  updateShoppingCart ({commit}, {id, shoppingCart}) {
+    return fly.put('/shoppingCarts/' + id, {shoppingCart: shoppingCart})
       .then((response) => {
         console.log(response.data)
       })
       .catch((error) => {
         console.log(error)
+        Promise.reject(error)
       })
   },
-  deleteShoppingCartList (id) {
-    fly.delete('/shoppingCarts/' + id)
+  deleteShoppingCart ({commit}, id) {
+    return fly.delete(`/shoppingCarts/${id}`)
       .then((response) => {
         console.log(response.data)
       })
       .catch((error) => {
         console.log(error)
+        Promise.reject(error)
       })
   }
-  // getMovies ({commit}) {
-  //   fly.get('http://t.yushu.im/v2/movie/top250')
-  //     .then((response) => {
-  //       commit(types.RECEIVE_MOVIES, response.data.subjects)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }
 }

@@ -1,12 +1,12 @@
-import { VantComponent } from '../common/component';
-import { iphonex } from '../mixins/iphonex';
+import { VantComponent } from '../common/component'
+import { iphonex } from '../mixins/iphonex'
 VantComponent({
   mixins: [iphonex],
   classes: ['bar-class', 'price-class', 'button-class'],
   props: {
     tip: null,
     type: Number,
-    price: Number,
+    price: String,
     label: String,
     loading: Boolean,
     disabled: Boolean,
@@ -21,20 +21,20 @@ VantComponent({
     }
   },
   computed: {
-    hasPrice: function hasPrice() {
-      return typeof this.data.price === 'number';
+    hasPrice: function hasPrice () {
+      return true
     },
-    priceStr: function priceStr() {
-      return this.data.price;
+    priceStr: function priceStr () {
+      return this.data.price
     },
-    tipStr: function tipStr() {
-      var tip = this.data.tip;
-      return typeof tip === 'string' ? tip : '';
+    tipStr: function tipStr () {
+      var tip = this.data.tip
+      return typeof tip === 'string' ? tip : ''
     }
   },
   methods: {
-    onSubmit: function onSubmit(event) {
-      this.$emit('submit', event.detail);
+    onSubmit: function onSubmit (event) {
+      this.$emit('submit', event.detail)
     }
   }
-});
+})

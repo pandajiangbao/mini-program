@@ -8,8 +8,6 @@
     "pages/pay/main",
     "pages/order/main",
     "pages/orderDetail/main",
-    "pages/movies/main",
-    "pages/moviesDetail/main",
     "pages/my/main"
   ],
   "window": {
