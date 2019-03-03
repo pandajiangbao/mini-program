@@ -2,6 +2,7 @@
   <div class="container">
     <van-card
       class="shopping-cart-container"
+      @tap="toDetail(item.product.id)"
       v-for="(item,index) in shoppingCartList"
       :key="index"
       :num="item.productAmount"
@@ -12,16 +13,16 @@
       lazy-load="true"
     >
       <view slot="footer">
-        <van-button round size="mini">-</van-button>
-        <van-button round size="mini">+</van-button>
+        <van-button @tap.stop="handleAmount(item,-1)" round size="mini">-</van-button>
+        <van-button @tap.stop="handleAmount(item,1)" round size="mini">+</van-button>
         <p class="product-priceSum">
-          <van-checkbox class="product-selected" :value="item.isSelected" @change="onChange(index)"></van-checkbox>
-          <van-button class="product-delete" round size="mini" type="danger" @tap="onDelete(item.id)">删除</van-button>
+          <van-checkbox class="product-selected" :value="item.isSelected" @change.stop="onSelect(item)"></van-checkbox>
+          <van-button class="product-delete" round size="mini" type="danger" @tap.stop="onDelete(item.id)">删除</van-button>
           总价:¥{{item.priceSum}}
         </p>
       </view>
     </van-card>
-    <van-submit-bar :price="totalPrice" button-text="提交订单" @submit="onSubmit">
+    <van-submit-bar class="submit-bar" :price="totalPrice" button-text="提交订单" @submit="onSubmit">
       <view slot="select">
         <van-checkbox class="all-selected" :value="allSelected" @change="onAllChange">全选</van-checkbox>
       </view>
@@ -35,7 +36,6 @@ export default {
   props: [],
   data () {
     return {
-      allSelected: false
     }
   },
   beforeMount () {},
@@ -47,12 +47,15 @@ export default {
       'shoppingCartList'
     ]),
     totalPrice: function () {
-      let sum = 0
-      this.shoppingCartList.forEach((item, index) => {
-        sum = item.priceSum + sum
-        console.log('sum :', sum)
-      })
-      return parseInt(sum).toFixed(2)
+      return this.shoppingCartList.reduce((accumulator, item) => {
+        if (item.isSelected) return accumulator + Number(item.priceSum)
+        else return accumulator
+      }, 0.00)
+    },
+    allSelected: function () {
+      if (this.shoppingCartList.length !== 0) {
+        return this.shoppingCartList.every((item) => item.isSelected === true)
+      } else return false
     }
   },
   methods: {
@@ -61,20 +64,45 @@ export default {
       'updateShoppingCart',
       'deleteShoppingCart'
     ]),
-    onChange (index) {
-      console.log(index)
-      this.shoppingCartList[index].isSelected = !this.shoppingCartList[index]
-        .isSelected
+    handleAmount (item, amount) {
+      item.productAmount += amount
+      item.priceSum = (item.product.price * item.productAmount).toFixed(2)
+      if (item.productAmount === 0) {
+        this.deleteShoppingCart(item.id)
+        return
+      }
+      this.updateShoppingCart({
+        id: item.id,
+        sum: item.priceSum,
+        amount: item.productAmount
+      })
+    },
+    toDetail (id) {
+      wx.navigateTo({ url: `../productDetail/main?id=${id}` })
+    },
+    onSelect (item) {
+      item.isSelected = !item.isSelected
+      this.updateShoppingCart({
+        id: item.id,
+        isSelected: item.isSelected
+      })
     },
     onAllChange () {
-      this.allSelected = !this.allSelected
+      if (!this.allSelected) {
+        this.shoppingCartList.forEach((item) => {
+          item.isSelected = true
+        })
+      } else {
+        this.shoppingCartList.forEach((item) => {
+          item.isSelected = false
+        })
+      }
     },
     onDelete (id) {
       this.deleteShoppingCart(id)
-        .then(() => {
-          // 刷新购物车
-          return this.getShoppingCartList(this.userId)
-        })
+    },
+    onSubmit () {
+      wx.navigateTo({ url: `../pay/main` })
     }
   }
 }
@@ -108,8 +136,9 @@ export default {
 .all-selected{
   margin-left:60rpx;
 }
-van-submit-bar {
+.submit-bar {
   width: 100%;
+  height: 200rpx;
 }
 </style>
 

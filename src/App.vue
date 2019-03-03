@@ -34,8 +34,10 @@ export default {
                 this.$fly.config.headers = {token: response.data.token}
                 // userId存入vuex中
                 this.setUserId(response.data.userId)
+                // 获取全部物品信息
+                this.getProductList()
                 // 获取购物车内容
-                this.getShoppingCartList(this.userId)
+                this.getShoppingCartList()
               })
               .catch((error) => {
                 console.log(error)
@@ -51,7 +53,8 @@ export default {
       setUserInfo: types.RECEIVE_USER_INFO
     }),
     ...mapActions([
-      'getShoppingCartList'
+      'getShoppingCartList',
+      'getProductList'
     ])
   }
 }

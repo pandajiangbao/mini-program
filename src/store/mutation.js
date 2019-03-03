@@ -14,6 +14,9 @@ export default {
   [types.RECEIVE_PRODUCTS] (state, productList) {
     state.productList = productList
   },
+  [types.RECEIVE_PRODUCTS_BY_QUERY] (state, productListByQuery) {
+    state.productListByQuery = productListByQuery
+  },
   [types.RECEIVE_PRODUCTS_BY_CATEGORY] (state, productListByCategory) {
     state.productListByCategory = productListByCategory
   },
@@ -22,5 +25,8 @@ export default {
   },
   [types.RECEIVE_SHOPPING_CARTS] (state, shoppingCartList) {
     state.shoppingCartList = shoppingCartList
+  },
+  [types.RECEIVE_ORDERS] (state, orderList) {
+    state.orderList = orderList
   }
 }

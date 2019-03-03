@@ -1,24 +1,21 @@
 <template>
   <div class="container">
-    <van-search :value="value" placeholder="请输入搜索关键词" use-action-slot @search="onSearch">
-      <view slot="action" @tap="toSearch">搜索</view>
-    </van-search>
+    <van-search v-model="value" placeholder="请输入搜索关键词" use-action-slot @search="onSearch" @change="onChange" @cancel="onCancel"/>
     <van-notice-bar
       left-icon="/static/icon/index/speaker.png"
       speed=70
       text="AnimeStore全新上线,共有103款二次元周边任君选择,欢迎各位宅友前来选购!"
     />
     <swiper
-      @tap="bindViewTap"
       indicator-dots
       indicator-color="pink"
       autoplay
       circular
       interval="2000"
     >
-      <block v-for="(item,index) in URLs" :index="index" :key="index">
-        <swiper-item>
-          <img :src="item" mode="scaleToFill">
+      <block v-for="(item,index) in productListToSwiper"  :index="index" :key="index">
+        <swiper-item @tap="toDetail(item.id)">
+          <img :src="item.img" mode="scaleToFill">
         </swiper-item>
       </block>
     </swiper>
@@ -38,42 +35,41 @@
 </template>
 
 <script>
-import card from '@/components/card'
-
+import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
       value: '',
-      URLs: [
-        '//img.alicdn.com/bao/uploaded/i3/2138521987/TB1erP4Xzgy_uJjSZSyXXbqvVXa_!!0-item_pic.jpg',
-        '//img.alicdn.com/bao/uploaded/i1/2138521987/TB1pEgRh4PI8KJjSspoXXX6MFXa_!!0-item_pic.jpg',
-        '//img.alicdn.com/bao/uploaded/i2/2138521987/O1CN011QY5S3QZvhpONc3_!!0-item_pic.jpg',
-        '//img.alicdn.com/bao/uploaded/i2/2138521987/TB10H9ipCtYBeNjSspkXXbU8VXa_!!0-item_pic.jpg'
-      ],
       motto: '胖达酱'
     }
   },
-
-  components: {
-    card
+  computed: {
+    ...mapState([
+      'productList'
+    ]),
+    productListToSwiper: function () {
+      return this.productList.filter((item) => item.id <= 4)
+    }
   },
-
   methods: {
-    bindViewTap () {
-      wx.navigateTo({ url: '../logs/main' })
+    ...mapActions([
+      'getProductListByQuery'
+    ]),
+    onSearch () {
+      this.getProductListByQuery(this.value).then(() => {
+        wx.navigateTo({ url: '../search/main' })
+      })
     },
-    toSearch () {
-      console.log(111)
+    onChange (event) {
+      this.value = event.mp.detail
+    },
+    toDetail (id) {
+      wx.navigateTo({ url: `../productDetail/main?id=${id}` })
     },
     toVuex () {
       wx.switchTab({ url: '../category/main' })
-    },
-    clickHandle (msg, ev) {
-      console.log(this)
-      console.log('clickHandle:', msg, ev)
     }
-  },
-  created () { }
+  }
 }
 </script>
 

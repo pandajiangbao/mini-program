@@ -1,7 +1,7 @@
 <wxs src="../wxs/utils.wxs" module="utils" />
 
 <view class="van-checkbox custom-class">
-  <view class="van-checkbox__icon-wrap" bindtap="toggle">
+  <view class="van-checkbox__icon-wrap" catchtap="toggle">
     <slot wx:if="{{ useIconSlot }}" name="icon" />
     <van-icon
       wx:else
@@ -12,7 +12,7 @@
       custom-style="line-height: 20px;"
     />
   </view>
-  <view class="label-class {{ utils.bem('checkbox__label', [labelPosition, { disabled }]) }}" bindtap="onClickLabel">
+  <view class="label-class {{ utils.bem('checkbox__label', [labelPosition, { disabled }]) }}" catchtap="onClickLabel">
     <slot />
   </view>
 </view>

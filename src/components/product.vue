@@ -13,7 +13,7 @@ export default {
   props: ['product', 'index', 'status'],
   methods: {
     toDetail () {
-      wx.navigateTo({ url: `../productDetail/main?index=${this.index}&status=${this.status}` })
+      wx.navigateTo({ url: `../productDetail/main?id=${this.product.id}` })
     }
   }
 }
@@ -28,20 +28,12 @@ export default {
   padding: 5rpx;
 }
 .container:nth-child(even) {
-  border-left: 1rpx solid #999;
   border-bottom: 1rpx solid #999;
 }
 
 .container:nth-child(odd) {
+  border-right: 1rpx solid #999;
   border-bottom: 1rpx solid #999;
-  
-  .container:nth-last-child(1) {
-  border-bottom: 0rpx;
-  }
-  
-  .container:nth-last-child(2) {
-  border-bottom: 0rpx;
-  }
 }
 
 .product-img {

@@ -61,11 +61,9 @@ export default {
     }
   },
   mounted () {
-    if (this.$mp.query.status === '1') {
-      this.product = this.productListByCategory[this.$mp.query.index]
-    } else if (this.$mp.query.status === '0') {
-      this.product = this.productList[this.$mp.query.index]
-    }
+    this.product = this.productList.find((item) => {
+      return item.id.toString() === this.$mp.query.id
+    })
     let oldStorage = wx.getStorageSync('isStared')
     if (!oldStorage) {
       wx.setStorage({
@@ -115,26 +113,7 @@ export default {
             pid: this.product.id,
             uid: this.userId
           })
-          .then(() => {
-            // 刷新购物车
-            return this.getShoppingCartList(this.userId)
-          })
-          .then(() => {
-            wx.showToast({
-              title: '添加成功', // 提示的内容,
-              duration: 1500, // 延迟时间,
-              mask: true // 显示透明蒙层，防止触摸穿透,
-            })
-            this.show = false
-          })
-          .catch(() => {
-            wx.showToast({
-              title: '网络延迟,请稍后再试', // 提示的内容,
-              icon: 'none',
-              duration: 1500, // 延迟时间,
-              mask: true // 显示透明蒙层，防止触摸穿透,
-            })
-          })
+        this.show = false
       } else if (this.showState === 1) {
         console.log('buy')
       }

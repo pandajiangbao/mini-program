@@ -23,11 +23,11 @@
         </div>
       </div>
     </div>
-    <button>我的订单</button>
-    <button>我的地址</button>
-    <button>我的优惠</button>
-    <button>我的收藏</button>
-    <button>关于我们</button>
+    <button @tap="toOrder">我的订单</button>
+    <button @tap="toAddress">我的地址</button>
+    <button @tap="toBonus">我的优惠</button>
+    <button @tap="toStar">我的收藏</button>
+    <button @tap="toAbout">关于我们</button>
   </div>
 </template>
 
@@ -50,6 +50,21 @@ export default {
     ])
   },
   methods: {
+    toOrder () {
+      wx.navigateTo({ url: '../order/main' })
+    },
+    toAddress () {
+      wx.navigateTo({ url: '../address/main' })
+    },
+    toBonus () {
+      wx.navigateTo({ url: '../bonus/main' })
+    },
+    toStar () {
+      wx.navigateTo({ url: '../star/main' })
+    },
+    toAboout () {
+      wx.navigateTo({ url: '../about/main' })
+    }
   },
   comments: {
     card

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <van-search :value="value" placeholder="请输入搜索关键词" use-action-slot @search="onSearch" @change="onSearchChange" @cancel="onCancel"/>
+    <van-search v-model="value" placeholder="请输入搜索关键词" use-action-slot @search="onSearch" @change="onSearchChange" @cancel="onCancel"/>
     <van-tabs @change="onChange">
       <van-tab title="全部">
         <div class="product-container">
