@@ -19,6 +19,7 @@
         </swiper-item>
       </block>
     </swiper>
+    <p class="product-text">商品推荐</p>
     <div class="usermotto">
       <div class="user-motto">
         <card :text="motto"></card>
@@ -79,7 +80,12 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
+.product-text{
+  width: 100%;
+  text-align: center;
+  border-top: 1rpx solid grey;
+  border-bottom: 1rpx solid grey;
+}
 .usermotto {
   margin-top: 50px;
 }

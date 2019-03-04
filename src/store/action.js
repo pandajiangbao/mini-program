@@ -8,7 +8,7 @@ export default {
         commit(types.RECEIVE_PRODUCTS, response.data)
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
       })
   },
   getProductListByQuery ({commit}, query) {
@@ -17,7 +17,7 @@ export default {
         commit(types.RECEIVE_PRODUCTS_BY_QUERY, response.data)
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
       })
   },
   getProductListByCategory ({commit}, index) {
@@ -26,7 +26,7 @@ export default {
         commit(types.RECEIVE_PRODUCTS_BY_CATEGORY, response.data)
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
       })
   },
   getProductCategoryList ({commit}) {
@@ -35,7 +35,7 @@ export default {
         commit(types.RECEIVE_PRODUCT_CATEGORIES, response.data)
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
       })
   },
   getShoppingCartList ({commit, state}) {
@@ -44,7 +44,7 @@ export default {
         commit(types.RECEIVE_SHOPPING_CARTS, response.data)
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
       })
   },
   addShoppingCart ({dispatch, state}, {sum, amount, pid, uid}) {
@@ -67,7 +67,7 @@ export default {
         })
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
         wx.showToast({
           title: '网络延迟,请稍后再试', // 提示的内容,
           icon: 'none',
@@ -88,7 +88,7 @@ export default {
         return dispatch('getShoppingCartList')
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
         wx.showToast({
           title: '网络延迟,请稍后再试', // 提示的内容,
           icon: 'none',
@@ -104,16 +104,17 @@ export default {
         return dispatch('getShoppingCartList')
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
       })
   },
   getOrder ({commit, state}) {
     fly.get(`/user/${state.userId}/orders`)
       .then((response) => {
         commit(types.RECEIVE_ORDERS, response.data)
+        console.log(response.data)
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
       })
   },
   createOrder ({dispatch, state},
@@ -146,7 +147,13 @@ export default {
         })
       })
       .catch((error) => {
-        console.log(error)
+        console.warn(error)
+        wx.showToast({
+          title: '网络延迟,请稍后再试', // 提示的内容,
+          icon: 'none',
+          duration: 1500, // 延迟时间,
+          mask: true // 显示透明蒙层，防止触摸穿透,
+        })
       })
   }
 }

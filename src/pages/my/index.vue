@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import card from '@/components/card'
 import { mapState } from 'vuex'
 export default {
   props: [],
@@ -51,13 +50,13 @@ export default {
   },
   methods: {
     toOrder () {
-      wx.navigateTo({ url: '../order/main' })
+      wx.navigateTo({ url: '../myOrder/main' })
     },
     toAddress () {
-      wx.navigateTo({ url: '../address/main' })
+      wx.navigateTo({ url: '../myAddress/main' })
     },
     toBonus () {
-      wx.navigateTo({ url: '../bonus/main' })
+      wx.navigateTo({ url: '../myBonus/main' })
     },
     toStar () {
       wx.navigateTo({ url: '../star/main' })
@@ -65,9 +64,6 @@ export default {
     toAboout () {
       wx.navigateTo({ url: '../about/main' })
     }
-  },
-  comments: {
-    card
   }
 }
 </script>

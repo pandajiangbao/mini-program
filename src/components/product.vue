@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  props: ['product', 'index', 'status'],
+  props: ['product'],
   methods: {
     toDetail () {
       wx.navigateTo({ url: `../productDetail/main?id=${this.product.id}` })

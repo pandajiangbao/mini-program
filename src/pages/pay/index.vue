@@ -22,7 +22,7 @@
       :thumb="item.product.img"
       lazy-load="true"
     />
-    <van-submit-bar class="submit-bar" :price="totalPrice " button-text="付款" @submit="onSubmit"/>
+    <van-submit-bar class="submit-bar" :price="productPrice" button-text="付款" @submit="onSubmit"/>
   </div>
 </template>
 
@@ -36,6 +36,8 @@ export default {
       city: '广州市',
       county: '天河区',
       detail: '五山路华南农业大学华山区14栋302',
+      addressId: 1,
+      shippingComId: 2,
       shippingCom: '熊猫快递',
       shippingPrice: 10.00,
       bonusPrice: 20.00
@@ -50,13 +52,25 @@ export default {
     productPrice: function () {
       return this.productListToPay.reduce((accumulator, item) => {
         return accumulator + Number(item.priceSum)
-      })
+      }, 0.00)
     },
     totalPrice: function () {
       return this.productPrice + this.shippingPrice - this.bonusPrice
+    },
+    orderDetailList: function () {
+      return this.productListToPay.map((item) => {
+        return {
+          productId: item.productId,
+          productAmount: item.productAmount,
+          productImg: item.product.img,
+          productSinglePrice: item.product.price,
+          productTotalPrice: item.priceSum
+        }
+      })
     }
   },
   mounted () {
+    console.log(this.productListToPay)
   },
   methods: {
     ...mapActions([
@@ -64,10 +78,16 @@ export default {
       'deleteShoppingCart',
       'createOrder'
     ]),
-    onSumbit () {
-      console.log('todo')
-      // this.createOrder({
-      // })
+    onSubmit () {
+      this.createOrder({
+        productPrice: this.productPrice,
+        shippingPrice: this.shippingPrice,
+        bonusPrice: this.bonusPrice,
+        totalPrice: this.totalPrice,
+        addressId: this.addressId,
+        shippingComId: this.shippingComId,
+        orderDetailList: this.orderDetailList
+      })
     }
   }
 }
@@ -88,6 +108,9 @@ export default {
 }
 .address-cell {
   background-color: rgb(240, 139, 15);
+}
+van-card {
+  width: 100%;
 }
 van-cell {
   width: 100%;

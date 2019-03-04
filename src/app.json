@@ -6,11 +6,11 @@
     "pages/shoppingCart/main",
     "pages/search/main",
     "pages/pay/main",
-    "pages/order/main",
     "pages/orderDetail/main",
     "pages/my/main",
-    "pages/address/main",
-    "pages/bonus/main"
+    "pages/myOrder/main",
+    "pages/myAddress/main",
+    "pages/myBonus/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
