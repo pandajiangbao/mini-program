@@ -9,7 +9,7 @@ export default {
   },
   created () {
     // 调用登录接口
-    // let temp
+    let temp
     wx.login({
       success: loginRes => {
         wx.getUserInfo({
@@ -30,7 +30,7 @@ export default {
                 if (response.data.isNew) {
                   console.log(response.data.isNew)
                   console.log('新用户登录')
-                  // temp = response.data.isNew
+                  temp = response.data.isNew
                 }
                 // token存入storage并放入header中
                 wx.setStorageSync('token', response.data.token)
@@ -52,8 +52,12 @@ export default {
                 // 获取用户优惠券
                 this.getUserBonusList()
               })
-              // .then(()=>{
-              // })
+              .then(() => {
+                if (temp) {
+                  this.bonusToNewUser()
+                  // todo
+                }
+              })
               .catch((error) => {
                 console.log(error)
               })
@@ -74,7 +78,8 @@ export default {
       'getOrder',
       'getShippingComList',
       'getAddressList',
-      'getUserBonusList'
+      'getUserBonusList',
+      'bonusToNewUser'
     ])
   }
 }

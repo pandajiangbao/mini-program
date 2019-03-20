@@ -100,7 +100,6 @@ export default {
   getUserBonusList ({state, commit}) {
     fly.get(`/users/${state.userId}/userBonuses`)
       .then((response) => {
-        console.log(response)
         commit(types.RECEIVE_USER_BONUSES, response.data)
       })
       .catch((error) => {
@@ -109,6 +108,16 @@ export default {
   },
   deleteUserBonus ({dispatch}, {userBonusId}) {
     fly.delete(`/userStars/${userBonusId}`)
+      .then(() => {
+      // 刷新收藏列表
+        return dispatch('getUserBonusList')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  },
+  bonusToNewUser ({state, dispatch}) {
+    fly.post(`/users/${state.userId}/userBonuses/bonusToNewUser`)
       .then(() => {
       // 刷新收藏列表
         return dispatch('getUserBonusList')

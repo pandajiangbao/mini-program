@@ -2,19 +2,18 @@
   <div class="container">
     <p class="bonus-name">优惠券</p>
     <div class="bonus-info">
-      <p class="bonus-target">¥{{bonus.targetAmount}}</p>
-      <p class="bonus-reduce">{{bonus.reduceAmount}}</p>
+      <p class="bonus-target">满¥{{userBonus.bonus.targetAmount}}减</p>
+      <p class="bonus-reduce">¥{{userBonus.bonus.reduceAmount}}</p>
+      <p class="bonus-expired-time">有效期:{{userBonus.expiredTime}}</p>
     </div>
-    <p class="bonus-category">全场通用</p>
+    <div class="bonus-category"><p>全场通用</p></div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['bonus'],
+  props: ['userBonus'],
   methods: {
-    toDetail () {
-    }
   }
 }
 </script>
@@ -25,44 +24,52 @@ export default {
   height: 200rpx;
   display: flex;
   flex-direction: row;
-  padding: 5rpx;
+  border-bottom: 1rpx solid black;
 }
 .bonus-name {
-  width: 20%;
+  width: 8%;
   height: 100%;
-  font-size: 30rpx;
-}
-
-.product-title {
-  width: 100%;
-  font-size: 28rpx;
-  color: #333;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display:-webkit-box; 
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:2;
+  font-size: 50rpx;
+  text-align: center;
+  color: white;
+  background-color: rgb(45, 135, 219);
 }
 
 .bonus-info {
-  width: 50%;
+  width: 76%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: rgb(161, 27, 202);
 }
 .bonus-target {
   float: right;
   font-size: 24rpx;
-  color: red;
+  color: white;
+  text-align: center;
+  margin-top: 30rpx;
 }
 .bonus-reduce {
-  font-size: 24rpx;
+  font-size: 50rpx;
   width: 100%;
-  color: red;
+  color: white;
+  text-align: center
+}
+.bonus-expired-time{
+  font-size: 20rpx;
+  width: 100%;
+  color: white;
+  text-align: center;
 }
 .bonus-category{
-  width: 50%;
+  width: 16%;
   height: 100%;
-  font-size: 30rpx;
+  font-size: 60rpx;
+  text-align: center;
+  color: white;
+  background-color: rgb(0, 255, 179);
+  p {
+    margin-top: 12rpx;
+  }
 }
 </style>
