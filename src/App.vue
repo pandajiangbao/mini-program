@@ -9,6 +9,7 @@ export default {
   },
   created () {
     // 调用登录接口
+    // let temp
     wx.login({
       success: loginRes => {
         wx.getUserInfo({
@@ -26,19 +27,33 @@ export default {
                 }
               })
               .then((response) => {
-                if (response.data.token) {
-                  console.log('登录成功')
+                if (response.data.isNew) {
+                  console.log(response.data.isNew)
+                  console.log('新用户登录')
+                  // temp = response.data.isNew
                 }
                 // token存入storage并放入header中
                 wx.setStorageSync('token', response.data.token)
                 this.$fly.config.headers = {token: response.data.token}
                 // userId存入vuex中
                 this.setUserId(response.data.userId)
+                // 获取用户收藏列表
+                this.getUserStarList()
                 // 获取全部物品信息
                 this.getProductList()
-                // 获取购物车内容
+                // 获取购物车信息
                 this.getShoppingCartList()
+                // 获取订单信息
+                this.getOrder()
+                // 获取快递公司信息
+                this.getShippingComList()
+                // 获取地址信息
+                this.getAddressList()
+                // 获取用户优惠券
+                this.getUserBonusList()
               })
+              // .then(()=>{
+              // })
               .catch((error) => {
                 console.log(error)
               })
@@ -54,7 +69,12 @@ export default {
     }),
     ...mapActions([
       'getShoppingCartList',
-      'getProductList'
+      'getUserStarList',
+      'getProductList',
+      'getOrder',
+      'getShippingComList',
+      'getAddressList',
+      'getUserBonusList'
     ])
   }
 }

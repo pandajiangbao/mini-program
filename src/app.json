@@ -10,7 +10,9 @@
     "pages/my/main",
     "pages/myOrder/main",
     "pages/myAddress/main",
-    "pages/myBonus/main"
+    "pages/editAddress/main",
+    "pages/myBonus/main",
+    "pages/myStar/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

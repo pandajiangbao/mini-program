@@ -20,28 +20,19 @@
       </block>
     </swiper>
     <p class="product-text">商品推荐</p>
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
+    <div class="product-container">
+      <product v-for="(item,index) in productListToRecommend" :key="index" :product="item" ></product>
     </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model">
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy">
-    </form>
     <!-- <button open-type="getUserInfo" lang="zh_CN" @tap="onGotUserInfo">获取用户信息</button> -->
-    <button @tap="toVuex" class="counter">去往胖达列表页面</button>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import product from '@/components/product'
 export default {
   data () {
     return {
-      value: '',
-      motto: '胖达酱'
     }
   },
   computed: {
@@ -50,6 +41,9 @@ export default {
     ]),
     productListToSwiper: function () {
       return this.productList.filter((item) => item.id <= 4)
+    },
+    productListToRecommend: function () {
+      return this.productList.filter((item) => item.id > 4 && item.id <= 8)
     }
   },
   methods: {
@@ -70,6 +64,9 @@ export default {
     toVuex () {
       wx.switchTab({ url: '../category/main' })
     }
+  },
+  components: {
+    product
   }
 }
 </script>
@@ -83,26 +80,18 @@ export default {
 .product-text{
   width: 100%;
   text-align: center;
-  border-top: 1rpx solid grey;
-  border-bottom: 1rpx solid grey;
+  font-size: 28rpx;
+  color: #333;
+  border-top: 1rpx solid #999;
+  border-bottom: 1rpx solid #999;
 }
-.usermotto {
-  margin-top: 50px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-
-.counter {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 5px 10px;
-  color: blue;
-  border: 1px solid blue;
+.product-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
 }
 van-search {
   width: 100%;

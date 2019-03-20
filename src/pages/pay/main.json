@@ -5,6 +5,7 @@
     "van-cell": "/static/vant/cell/index",
     "van-cell-group": "/static/vant/cell-group/index",
     "van-card": "/static/vant/card/index",
-    "van-submit-bar": "/static/vant/submit-bar/index"
+    "van-submit-bar": "/static/vant/submit-bar/index",
+    "van-action-sheet": "/static/vant/action-sheet/index"
   }
 }

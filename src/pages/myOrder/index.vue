@@ -2,11 +2,14 @@
   <div class="container" @tap="onTest">
     <van-tabs @change="onChange">
       <van-tab title="全部">
+        <p class="not-content-container" v-if="orderList.length===0">亲~这里还没有订单噢~</p>
         <van-panel
           class="order-container"
           v-for="(item,index) in orderList"
           :key="index"
+          @tap="toDetail(item.id)"
           :title="'订单号:'+item.orderNo"
+          :desc="'下单时间:'+item.createdTime"
           :status="item.orderStatus"
         >
           <div class="order-detail-container">
@@ -23,7 +26,9 @@
         <van-panel
           v-for="(item,index) in orderListIsPay"
           :key="index"
+          @tap="toDetail(item.id)"
           :title="'订单号:'+item.orderNo"
+          :desc="'下单时间:'+item.createdTime"
           :status="item.orderStatus"
         >
           <div class="order-detail-container">
@@ -40,7 +45,9 @@
         <van-panel
           v-for="(item,index) in orderListIsReceviced"
           :key="index"
+          @tap="toDetail(item.id)"
           :title="'订单号:'+item.orderNo"
+          :desc="'下单时间:'+item.createdTime"
           :status="item.orderStatus"
         >
           <div class="order-detail-container">
@@ -78,6 +85,9 @@ export default {
   },
   methods: {
     ...mapActions(['getOrder']),
+    toDetail (id) {
+      wx.navigateTo({url: `../orderDetail/main?id=${id}`})
+    },
     onTest () {
       console.log(this.orderList)
     }
@@ -96,6 +106,12 @@ export default {
 }
 van-tabs {
   width: 100%;
+}
+.not-content-container {
+  width: 100%;
+  color: #999;
+  font-size: 28rpx;
+  text-align: center;
 }
 .order-container{
   width: 100%;

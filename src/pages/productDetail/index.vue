@@ -54,9 +54,8 @@ export default {
     return {
       product: {},
       amount: 1,
-      isStared: false,
       show: false,
-      showState: Number, // 0为购物车,1为订单
+      isStared: null,
       shoppingCart: {}
     }
   },
@@ -64,34 +63,47 @@ export default {
     this.product = this.productList.find((item) => {
       return item.id.toString() === this.$mp.query.id
     })
-    let oldStorage = wx.getStorageSync('isStared')
-    if (!oldStorage) {
-      wx.setStorage({
-        key: 'isStared',
-        data: {}
-      })
-    } else {
-      this.isStared = oldStorage[this.$mp.query.index]
-    }
   },
   onUnload () {
     this.amount = 1
+    wx.setTabBarBadge({
+      index: 2,
+      text: String(this.shoppingCartList.length)
+    })
   },
   computed: {
     ...mapState([
       'userId',
       'productList',
       'productListByCategory',
-      'shoppingCartList'
+      'shoppingCartList',
+      'userStarList'
     ]),
     sum: function () {
       return (this.product.price * this.amount).toFixed(2)
+    },
+    userStar: function () {
+      const productId = this.product.id
+      return this.userStarList.find(function (item) {
+        return item.product.id === productId
+      })
+    }
+  },
+  watch: {
+    userStar: function (newUserStar) {
+      if (newUserStar) {
+        this.isStared = true
+      } else {
+        this.isStared = false
+      }
     }
   },
   methods: {
     ...mapActions([
       'getShoppingCartList',
-      'addShoppingCart'
+      'addShoppingCart',
+      'addUserStar',
+      'deleteUserStar'
     ]),
     toHome () {
       wx.switchTab({ url: '../home/main' })
@@ -110,29 +122,20 @@ export default {
           {
             sum: this.product.price * this.amount,
             amount: this.amount,
-            pid: this.product.id,
-            uid: this.userId
+            pid: this.product.id
           })
         this.show = false
       } else if (this.showState === 1) {
-        console.log('buy')
+        this.show = false
+        wx.navigateTo({ url: `../pay/main?id=${this.product.id}&amount=${this.amount}` })
       }
     },
     handleStared () {
-      this.isStared = !this.isStared
-      let title = this.isStared ? '收藏成功' : '取消收藏'
-      wx.showToast({
-        title, // 提示的内容,
-        icon: 'success', // 图标,
-        duration: 1000, // 延迟时间,
-        mask: true // 显示透明蒙层，防止触摸穿透,
-      })
-      let oldStorage = wx.getStorageSync('isStared')
-      oldStorage[this.$mp.query.index] = this.isStared
-      wx.setStorage({
-        key: 'isStared',
-        data: oldStorage
-      })
+      if (this.userStar) {
+        this.deleteUserStar({userStarId: this.userStar.id})
+      } else {
+        this.addUserStar({productId: this.product.id})
+      }
     }
   }
 }

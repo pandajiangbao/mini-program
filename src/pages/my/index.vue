@@ -59,7 +59,7 @@ export default {
       wx.navigateTo({ url: '../myBonus/main' })
     },
     toStar () {
-      wx.navigateTo({ url: '../star/main' })
+      wx.navigateTo({ url: '../myStar/main' })
     },
     toAboout () {
       wx.navigateTo({ url: '../about/main' })

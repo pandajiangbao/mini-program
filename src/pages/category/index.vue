@@ -4,12 +4,12 @@
     <van-tabs @change="onChange">
       <van-tab title="全部">
         <div class="product-container">
-          <product v-for="(item,index) in productList" :key="index" :product="item" :index="index" :status="0"></product>
+          <product v-for="(item,index) in productList" :key="index" :product="item"></product>
         </div>
       </van-tab>
       <van-tab v-for="(item,index) in productCategoryList" :key="index" :title="item.name">
         <div class="product-container">
-          <product v-for="(item,index2) in productListByCategory" :key="index2" :product="item" :index="index2" :status="1"></product>
+          <product v-for="(item,index2) in productListByCategory" :key="index2" :product="item"></product>
         </div>
       </van-tab>
     </van-tabs>

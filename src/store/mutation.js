@@ -11,6 +11,12 @@ export default {
       console.log(types.RECEIVE_USER_INFO, '获取的数据有误')
     }
   },
+  [types.RECEIVE_USER_STARS] (state, userStarList) {
+    state.userStarList = userStarList
+  },
+  [types.RECEIVE_USER_BONUSES] (state, userBonusList) {
+    state.userBonusList = userBonusList
+  },
   [types.RECEIVE_PRODUCTS] (state, productList) {
     state.productList = productList
   },
@@ -28,5 +34,17 @@ export default {
   },
   [types.RECEIVE_ORDERS] (state, orderList) {
     state.orderList = orderList
+  },
+  [types.RECEIVE_SHIPPING_COMS] (state, shippingComList) {
+    state.shippingComList = shippingComList
+  },
+  [types.RECEIVE_ADDRESS] (state, addressList) {
+    state.addressList = addressList
+  },
+  [types.SET_ADDRESS_ID] (state, addressId) {
+    state.selectAddressId = addressId
+  },
+  [types.CLEAR_ADDRESS_ID] (state) {
+    state.selectAddressId = null
   }
 }

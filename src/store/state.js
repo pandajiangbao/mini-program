@@ -1,10 +1,15 @@
 export default {
   userId: '',
   userInfo: {},
+  userStarList: [],
+  userBonusList: [],
   productList: [],
   productListByQuery: [],
   productListByCategory: [],
   productCategoryList: [],
   shoppingCartList: [],
-  orderList: []
+  orderList: [],
+  shippingComList: [],
+  addressList: [],
+  selectAddressId: null
 }

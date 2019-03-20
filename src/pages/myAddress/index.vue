@@ -1,61 +1,58 @@
 <template>
   <div class="container">
-    <van-search v-model="value" placeholder="请输入搜索关键词" use-action-slot @search="onSearch" @change="onSearchChange" @cancel="onCancel"/>
-    <van-tabs @change="onChange">
-      <van-tab title="全部">
-        <div class="product-container">
-          <product v-for="(item,index) in productList" :key="index" :product="item" :index="index" :status="0"></product>
-        </div>
-      </van-tab>
-      <van-tab v-for="(item,index) in productCategoryList" :key="index" :title="item.name">
-        <div class="product-container">
-          <product v-for="(item,index2) in productListByCategory" :key="index2" :product="item" :index="index2" :status="1"></product>
-        </div>
-      </van-tab>
-    </van-tabs>
+    <p class="not-content-container" v-if="addressList.length===0">亲~你还没有填写地址噢~</p>
+    <van-panel
+      class="address-container"
+      v-for="(item,index) in addressList"
+      @tap="toSelect(item.id)"
+      :key="index"
+      :title="'收货人:'+item.receiver"
+      :status="item.phoneNumber"
+      use-footer-slot
+    >
+    <p class="address-detail">{{item.province+item.city+item.county+item.detail}}</p>
+      <view class="button-container" slot="footer">
+        <van-button class="update-button" size="small" @tap="toUpdate(item.id)">修改</van-button>
+        <van-button class="delete-button" size="small" type="danger" @tap="toDelete(item.id)">删除</van-button>
+      </view>
+    </van-panel>
+    <button class="add-address" @tap="toAdd">+ 新增地址</button>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import product from '@/components/product'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   data () {
-    return {
-      value: ''
-    }
+    return {}
   },
   computed: {
-    ...mapState([
-      'productList',
-      'productListByCategory',
-      'productCategoryList',
-      'productListByQuery'
-    ])
+    ...mapState(['addressList'])
   },
   mounted () {
-    this.getProductCategoryList()
+    this.getAddressList()
   },
   methods: {
+    ...mapMutations(['set_address_id']),
     ...mapActions([
-      'getProductListByCategory',
-      'getProductCategoryList',
-      'getProductListByQuery'
+      'getAddressList',
+      'deleteAddress'
     ]),
-    onSearch () {
-      this.getProductListByQuery(this.value).then(() => {
-        wx.navigateTo({ url: '../search/main' })
-      })
+    toSelect (id) {
+      if (this.$mp.query.select) {
+        this.set_address_id(id)
+        wx.navigateBack({delta: 1})
+      }
     },
-    onSearchChange (event) {
-      this.value = event.mp.detail
+    toUpdate (id) {
+      wx.navigateTo({url: `../editAddress/main?id=${id}`})
     },
-    onChange (event) {
-      this.getProductListByCategory(event.mp.detail.index)
+    toDelete (id) {
+      this.deleteAddress(id)
+    },
+    toAdd () {
+      wx.navigateTo({url: '../editAddress/main'})
     }
-  },
-  components: {
-    product
   }
 }
 </script>
@@ -69,21 +66,38 @@ export default {
   width: 100%;
   height: 100%;
 }
-
-.product-container{
+.not-content-container {
+  width: 100%;
+  color: #999;
+  font-size: 28rpx;
+  text-align: center;
+}
+.addres-container {
+  width: 100%;
+  border-bottom: 1rpx solid black;
+}
+.address-detail{
+  margin-left: 28rpx;
+  font-size: 28rpx;
+}
+.button-container{
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
+}
+.add-address {
   width: 100%;
-  height: 100%;
+  position:fixed; 
+  bottom:0;
+}
+.update-button{
+  margin-left: 65%;
+  padding: 10rpx;
 }
 
-van-search {
-  width: 100%;
+.delete-button{
+  padding: 10rpx;
 }
-
-van-tabs {
+van-panel {
   width: 100%;
+  height: 250rpx;
 }
 </style>

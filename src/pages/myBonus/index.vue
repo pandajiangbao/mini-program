@@ -1,24 +1,12 @@
 <template>
   <div class="container">
-    <van-search v-model="value" placeholder="请输入搜索关键词" use-action-slot @search="onSearch" @change="onSearchChange" @cancel="onCancel"/>
-    <van-tabs @change="onChange">
-      <van-tab title="全部">
-        <div class="product-container">
-          <product v-for="(item,index) in productList" :key="index" :product="item" :index="index" :status="0"></product>
-        </div>
-      </van-tab>
-      <van-tab v-for="(item,index) in productCategoryList" :key="index" :title="item.name">
-        <div class="product-container">
-          <product v-for="(item,index2) in productListByCategory" :key="index2" :product="item" :index="index2" :status="1"></product>
-        </div>
-      </van-tab>
-    </van-tabs>
+    <bonus v-for="(item,index) in userBonusList" :key="index" :bonus="item"></bonus>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import product from '@/components/product'
+import bonus from '@/components/bonus'
 export default {
   data () {
     return {
@@ -27,10 +15,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'productList',
-      'productListByCategory',
-      'productCategoryList',
-      'productListByQuery'
+      'userBonusList'
     ])
   },
   mounted () {
@@ -38,15 +23,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getProductListByCategory',
-      'getProductCategoryList',
       'getProductListByQuery'
     ]),
-    onSearch () {
-      this.getProductListByQuery(this.value).then(() => {
-        wx.navigateTo({ url: '../search/main' })
-      })
-    },
     onSearchChange (event) {
       this.value = event.mp.detail
     },
@@ -55,7 +33,7 @@ export default {
     }
   },
   components: {
-    product
+    bonus
   }
 }
 </script>

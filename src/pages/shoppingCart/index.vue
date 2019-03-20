@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <p class="not-content-container" v-if="shoppingCartList.length===0">亲~购物车里还没有商品噢~</p>
     <van-card
       class="shopping-cart-container"
       @tap="toDetail(item.product.id)"
@@ -24,7 +25,7 @@
     </van-card>
     <van-submit-bar class="submit-bar" :price="totalPrice" button-text="提交订单" @submit="onSubmit">
       <view slot="select">
-        <van-checkbox class="all-selected" :value="allSelected" @change="onAllChange">全选</van-checkbox>
+        <van-checkbox class="all-selected" :value="allSelected" @change="onAllSelect">全选</van-checkbox>
       </view>
     </van-submit-bar>
   </div>
@@ -38,7 +39,6 @@ export default {
     return {
     }
   },
-  beforeMount () {},
   mounted () {
   },
   computed: {
@@ -62,6 +62,7 @@ export default {
     ...mapActions([
       'getShoppingCartList',
       'updateShoppingCart',
+      'updateShoppingCartBatch',
       'deleteShoppingCart'
     ]),
     handleAmount (item, amount) {
@@ -87,22 +88,35 @@ export default {
         isSelected: item.isSelected
       })
     },
-    onAllChange () {
+    onAllSelect () {
       if (!this.allSelected) {
         this.shoppingCartList.forEach((item) => {
           item.isSelected = true
         })
+        this.updateShoppingCartBatch(
+          {shoppingCartList: this.shoppingCartList}
+        )
       } else {
         this.shoppingCartList.forEach((item) => {
           item.isSelected = false
         })
+        this.updateShoppingCartBatch({shoppingCartList: this.shoppingCartList})
       }
     },
     onDelete (id) {
       this.deleteShoppingCart(id)
     },
     onSubmit () {
-      wx.navigateTo({ url: `../pay/main` })
+      if (this.shoppingCartList.some((item) => item.isSelected === true)) {
+        wx.navigateTo({ url: `../pay/main` })
+      } else {
+        wx.showToast({
+          title: '请选择商品', // 提示的内容,
+          icon: 'none',
+          duration: 1000, // 延迟时间,
+          mask: true // 显示透明蒙层，防止触摸穿透,
+        })
+      }
     }
   }
 }
@@ -117,7 +131,12 @@ export default {
   width: 100%;
   height: 100%;
 }
-
+.not-content-container {
+  width: 100%;
+  color: #999;
+  font-size: 28rpx;
+  text-align: center;
+}
 .shopping-cart-container {
   width: 100%;
   border-bottom: 1rpx solid #999;

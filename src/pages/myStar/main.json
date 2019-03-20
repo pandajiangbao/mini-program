@@ -1,8 +1,7 @@
 {
-  "navigationBarTitleText": "我的地址",
+  "navigationBarTitleText": "我的收藏",
   "usingComponents": {
     "van-card": "/static/vant/card/index",
-    "van-button": "/static/vant/button/index",
     "van-tab": "/static/vant/tab/index",
     "van-tabs": "/static/vant/tabs/index",
     "van-panel": "/static/vant/panel/index"
