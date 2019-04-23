@@ -44,7 +44,7 @@ export default {
     ]),
     onSearch () {
       this.getProductListByQuery(this.value).then(() => {
-        wx.navigateTo({ url: '../search/main' })
+        wx.navigateTo({ url: `../search/main?value=${this.value}` })
       })
     },
     onSearchChange (event) {

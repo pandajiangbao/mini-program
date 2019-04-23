@@ -20,6 +20,7 @@
     />
     <van-cell title="订单号:" :value="order.orderNo"/>
     <van-cell title="下单时间:" :value="order.createdTime"/>
+    <van-cell title="送达时间:" :value="order.receiveTime"/>
     <van-cell title="快递公司" :value="shippingCom.comName"/>
     <van-cell title="快递联系电话" :value="shippingCom.phoneNumber"/>
     <van-cell title="运费" :value="'¥'+order.shippingPrice"/>
@@ -43,8 +44,11 @@ export default {
     ...mapState(['userId', 'orderList', 'shoppingCartList', 'shippingComList', 'addressList'])
   },
   mounted () {
+    console.log('this.$mp.query.id :', this.$mp.query.id)
     this.order = this.orderList.find((item) => item.id.toString() === this.$mp.query.id)
+    console.log('this.order :', this.order)
     this.shippingCom = this.shippingComList.find((item) => item.id === this.order.shippingComId)
+    console.log('this.shippingCom :', this.shippingCom)
     this.address = this.addressList.find((item) => item.id === this.order.addressId)
   },
   onUnload () {

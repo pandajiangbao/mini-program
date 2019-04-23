@@ -1,5 +1,6 @@
 export default {
   userId: '',
+  isNewUser: null,
   userInfo: {},
   userStarList: [],
   userBonusList: [],
@@ -11,5 +12,6 @@ export default {
   orderList: [],
   shippingComList: [],
   addressList: [],
+  selectBonusId: null,
   selectAddressId: null
 }

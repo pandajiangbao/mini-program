@@ -3,7 +3,7 @@ import * as types from './mutation-types'
 
 export default {
   getProductList ({commit}) {
-    fly.get('/products')
+    return fly.get('/products')
       .then((response) => {
         commit(types.RECEIVE_PRODUCTS, response.data)
       })
@@ -21,7 +21,7 @@ export default {
       })
   },
   getProductListByCategory ({commit}, index) {
-    fly.get(`/categories/${index}/products`)
+    return fly.get(`/categories/${index}/products`)
       .then((response) => {
         commit(types.RECEIVE_PRODUCTS_BY_CATEGORY, response.data)
       })
@@ -30,7 +30,7 @@ export default {
       })
   },
   getProductCategoryList ({commit}) {
-    fly.get('/categories')
+    return fly.get('/categories')
       .then((response) => {
         commit(types.RECEIVE_PRODUCT_CATEGORIES, response.data)
       })
@@ -39,7 +39,7 @@ export default {
       })
   },
   getUserStarList ({state, commit}) {
-    fly.get(`/users/${state.userId}/userStars`)
+    return fly.get(`/users/${state.userId}/userStars`)
       .then((response) => {
         commit(types.RECEIVE_USER_STARS, response.data)
       })
@@ -98,7 +98,7 @@ export default {
       })
   },
   getUserBonusList ({state, commit}) {
-    fly.get(`/users/${state.userId}/userBonuses`)
+    return fly.get(`/users/${state.userId}/userBonuses`)
       .then((response) => {
         commit(types.RECEIVE_USER_BONUSES, response.data)
       })
@@ -117,7 +117,7 @@ export default {
       })
   },
   bonusToNewUser ({state, dispatch}) {
-    fly.post(`/users/${state.userId}/userBonuses/bonusToNewUser`)
+    return fly.post(`/users/${state.userId}/userBonuses/bonusToNewUser`)
       .then(() => {
       // 刷新收藏列表
         return dispatch('getUserBonusList')
@@ -127,7 +127,7 @@ export default {
       })
   },
   getShoppingCartList ({commit, state}) {
-    fly.get(`/users/${state.userId}/shoppingCarts`)
+    return fly.get(`/users/${state.userId}/shoppingCarts`)
       .then((response) => {
         wx.setTabBarBadge({
           index: 2,
@@ -218,8 +218,8 @@ export default {
         console.error(error)
       })
   },
-  getOrder ({commit, state}) {
-    fly.get(`/users/${state.userId}/orders`)
+  getOrderList ({commit, state}) {
+    return fly.get(`/users/${state.userId}/orders`)
       .then((response) => {
         commit(types.RECEIVE_ORDERS, response.data)
       })
@@ -234,6 +234,7 @@ export default {
       totalPrice,
       addressId,
       shippingComId,
+      userBonusId,
       shoppingCartList,
       orderDetailList,
       flag}) {
@@ -246,26 +247,31 @@ export default {
       totalPrice: totalPrice,
       addressId: addressId,
       shippingComId: shippingComId,
+      userBonusId: userBonusId,
       shoppingCartList: shoppingCartList,
       orderDetailList: orderDetailList
     })
       .then((response) => {
         temp = response.data
         // 刷新订单表
-        return dispatch('getOrder')
+        return dispatch('getOrderList')
       })
       .then(() => {
         // 刷新购物车
         return dispatch('getShoppingCartList')
       })
       .then(() => {
-        wx.redirectTo({
-          url: `../orderDetail/main?id=${temp}`
-        })
+        // 刷新用户优惠券
+        return dispatch('getUserBonusList')
+      })
+      .then(() => {
         wx.showToast({
           title: '下单成功', // 提示的内容,
-          duration: 1000, // 延迟时间,
+          duration: 1500, // 延迟时间,
           mask: true // 显示透明蒙层，防止触摸穿透,
+        })
+        wx.redirectTo({
+          url: `../orderDetail/main?id=${temp}`
         })
       })
       .catch((error) => {
@@ -288,7 +294,7 @@ export default {
       })
   },
   getAddressList ({commit, state}) {
-    fly.get(`/users/${state.userId}/userAddresses`)
+    return fly.get(`/users/${state.userId}/userAddresses`)
       .then((response) => {
         commit(types.RECEIVE_ADDRESS, response.data)
       })

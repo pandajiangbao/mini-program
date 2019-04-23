@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
-    <bonus v-for="(item,index) in userBonusList" :key="index" :userBonus="item"></bonus>
+  <div  class="container">
+    <bonus v-for="(item,index) in userBonusList" :key="index" :userBonus="item" :query="$mp.query.productPrice"></bonus>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import bonus from '@/components/bonus'
 export default {
   data () {
@@ -19,8 +19,12 @@ export default {
     ])
   },
   mounted () {
+    this.getUserBonusList()
   },
   methods: {
+    ...mapActions([
+      'getUserBonusList'
+    ])
   },
   components: {
     bonus

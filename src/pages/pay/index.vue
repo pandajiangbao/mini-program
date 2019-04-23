@@ -7,10 +7,10 @@
       icon="location-o"
       size="large"
       :value="address?address.phoneNumber:'请选择'"
-      :label="address?address.province+address.city+address.county+address.detail:''"
+      :label="address?address.province+address.city+address.county+address.detail:' '"
       is-link
     />
-    <van-cell title="优惠券:" :value="bonusPrice?bonusPrice:'未选择'" is-link/>
+    <van-cell title="优惠券:" @tap="toBonus(productPrice)" :value="userBonus?'满'+userBonus.bonus.targetAmount+'减'+userBonus.bonus.reduceAmount:'未选择'" is-link/>
     <van-cell title="快递公司" @tap="show = true" :value="shippingComName?shippingComName:'未选择'" is-link/>
     <van-cell title="运费" :value="shippingPrice?'¥'+shippingPrice:'请选择快递公司'"/>
     <van-cell title="商品"/>
@@ -40,18 +40,19 @@ export default {
   props: [],
   data () {
     return {
-      temp: null,
+      temp: '',
       flag: false,
       shippingCom: {},
-      shippingComId: null,
-      shippingComName: null,
-      shippingPrice: null,
-      bonusPrice: null,
+      shippingComId: '',
+      shippingComName: '',
+      shippingPrice: 0.00,
+      bonusPrice: 0.00,
+      userBonusId: '',
       show: false
     }
   },
   computed: {
-    ...mapState(['userId', 'productList', 'shoppingCartList', 'selectAddressId', 'addressList', 'shippingComList']),
+    ...mapState(['userId', 'productList', 'shoppingCartList', 'selectAddressId', 'selectBonusId', 'userBonusList', 'addressList', 'shippingComList']),
     productListToPay: function () {
       if (this.temp) {
         const singleProdcut = this.productList.find((item) => {
@@ -78,7 +79,20 @@ export default {
       return this.productPrice + this.shippingPrice - this.bonusPrice
     },
     address: function () {
-      return this.addressList.find((item) => item.id === this.selectAddressId)
+      let addressTemp = this.addressList.find((item) => item.id === this.selectAddressId)
+      if (addressTemp) {
+        return addressTemp
+      } else {
+        return ''
+      }
+    },
+    userBonus: function () {
+      let userBonusTemp = this.userBonusList.find((item) => item.id === this.selectBonusId)
+      if (userBonusTemp) {
+        return userBonusTemp
+      } else {
+        return ''
+      }
     },
     shippingComListToShow: function () {
       return this.shippingComList.map((item) => {
@@ -102,24 +116,34 @@ export default {
       })
     }
   },
+  watch: {
+    userBonus: function (newItem, oldItem) {
+      this.bonusPrice = newItem.bonus.reduceAmount
+      this.userBonusId = newItem.id
+    }
+  },
   mounted () {
+    console.log(this.userBonus)
     if (this.$mp.query.id) {
       this.temp = this.$mp.query.id
       this.flag = true
     }
   },
   onUnload () {
-    this.shippingComId = null
-    this.shippingComName = null
-    this.shippingCom = null
-    this.shippingPrice = null
+    this.shippingComId = ''
+    this.shippingComName = ''
+    this.shippingCom = ''
+    this.shippingPrice = ''
+    this.bonusPrice = ''
+    this.userBonusId = ''
     this.flag = false
-    this.temp = null
-    this.address = null
+    this.temp = ''
+    this.address = ''
     this.clear_address_id()
+    this.clear_bonus_id()
   },
   methods: {
-    ...mapMutations(['clear_address_id']),
+    ...mapMutations(['clear_address_id', 'clear_bonus_id']),
     ...mapActions([
       'getShoppingCartList',
       'deleteShoppingCart',
@@ -127,6 +151,9 @@ export default {
     ]),
     toAddress () {
       wx.navigateTo({url: `../myAddress/main?select=true`})
+    },
+    toBonus (productPrice) {
+      wx.navigateTo({url: `../myBonus/main?productPrice=${productPrice}`})
     },
     onSelect (event) {
       this.shippingCom = this.shippingComList.find((item) => item.id === event.mp.detail.id)
@@ -144,6 +171,7 @@ export default {
           totalPrice: this.totalPrice,
           addressId: this.address.id,
           shippingComId: this.shippingComId,
+          userBonusId: this.userBonusId,
           shoppingCartList: this.productListToPay,
           orderDetailList: this.orderDetailList,
           flag: this.flag

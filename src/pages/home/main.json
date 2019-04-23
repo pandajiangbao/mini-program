@@ -1,5 +1,6 @@
 {
   "usingComponents": {
+    "van-dialog": "/static/vant/dialog/index",
     "van-search": "/static/vant/search/index",
     "van-notice-bar": "/static/vant/notice-bar/index"
   }

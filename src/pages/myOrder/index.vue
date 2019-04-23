@@ -72,7 +72,7 @@ export default {
     return {}
   },
   mounted () {
-    this.getOrder()
+    this.getOrderList()
   },
   computed: {
     ...mapState(['productList', 'orderList']),
@@ -84,12 +84,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getOrder']),
+    ...mapActions(['getOrderList']),
     toDetail (id) {
+      console.log('id :', id)
       wx.navigateTo({url: `../orderDetail/main?id=${id}`})
-    },
-    onTest () {
-      console.log(this.orderList)
     }
   }
 }

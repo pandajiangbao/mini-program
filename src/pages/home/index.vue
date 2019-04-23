@@ -23,12 +23,14 @@
     <div class="product-container">
       <product v-for="(item,index) in productListToRecommend" :key="index" :product="item" ></product>
     </div>
+    <van-dialog id="van-dialog" />
     <!-- <button open-type="getUserInfo" lang="zh_CN" @tap="onGotUserInfo">获取用户信息</button> -->
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Dialog from '@/../static/vant/dialog/dialog'
 import product from '@/components/product'
 export default {
   data () {
@@ -37,6 +39,8 @@ export default {
   },
   computed: {
     ...mapState([
+      'userInfo',
+      'isNewUser',
       'productList'
     ]),
     productListToSwiper: function () {
@@ -48,11 +52,12 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getProductListByQuery'
+      'getProductListByQuery',
+      'bonusToNewUser'
     ]),
     onSearch () {
       this.getProductListByQuery(this.value).then(() => {
-        wx.navigateTo({ url: '../search/main' })
+        wx.navigateTo({ url: `../search/main?value=${this.value}` })
       })
     },
     onChange (event) {
@@ -64,6 +69,21 @@ export default {
     toVuex () {
       wx.switchTab({ url: '../category/main' })
     }
+  },
+  watch: {
+    isNewUser: function (newItem, oldItem) {
+      if (newItem) {
+        this.bonusToNewUser()
+          .then(() => {
+            Dialog.alert({
+              title: '新用户福利',
+              message: '欢迎来到AnimeStore,送你优惠券噢亲~请到我的优惠券中查看详情'
+            })
+          })
+      }
+    }
+  },
+  mounted () {
   },
   components: {
     product

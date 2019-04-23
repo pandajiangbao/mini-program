@@ -1,22 +1,23 @@
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex'
 import * as types from './store/mutation-types'
+// import Dialog from '../static/vant/dialog/dialog'
 export default {
   computed: {
     ...mapState([
-      'userId'
+      'userId',
+      'userInfo'
     ])
   },
   created () {
     // 调用登录接口
-    let temp
     wx.login({
       success: loginRes => {
         wx.getUserInfo({
           success: infoRes => {
             this.setUserInfo(infoRes.userInfo)
             this.$fly.post(
-              'http://localhost:8082/user/login',
+              '/users/login',
               {
                 code: loginRes.code, // 临时登录凭证
                 rawData: infoRes.rawData, // 用户非敏感信息
@@ -28,9 +29,8 @@ export default {
               })
               .then((response) => {
                 if (response.data.isNew) {
-                  console.log(response.data.isNew)
                   console.log('新用户登录')
-                  temp = response.data.isNew
+                  this.setIsNewUser()
                 }
                 // token存入storage并放入header中
                 wx.setStorageSync('token', response.data.token)
@@ -44,19 +44,13 @@ export default {
                 // 获取购物车信息
                 this.getShoppingCartList()
                 // 获取订单信息
-                this.getOrder()
+                this.getOrderList()
                 // 获取快递公司信息
                 this.getShippingComList()
                 // 获取地址信息
                 this.getAddressList()
                 // 获取用户优惠券
                 this.getUserBonusList()
-              })
-              .then(() => {
-                if (temp) {
-                  this.bonusToNewUser()
-                  // todo
-                }
               })
               .catch((error) => {
                 console.log(error)
@@ -69,13 +63,14 @@ export default {
   methods: {
     ...mapMutations({
       setUserId: types.RECEIVE_USER_ID,
+      setIsNewUser: types.SET_IS_NEW_USER,
       setUserInfo: types.RECEIVE_USER_INFO
     }),
     ...mapActions([
       'getShoppingCartList',
       'getUserStarList',
       'getProductList',
-      'getOrder',
+      'getOrderList',
       'getShippingComList',
       'getAddressList',
       'getUserBonusList',

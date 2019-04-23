@@ -12,10 +12,18 @@
 import { mapState, mapActions } from 'vuex'
 import product from '@/components/product'
 export default {
+  data () {
+    return {
+      value: ''
+    }
+  },
   computed: {
     ...mapState([
       'productListByQuery'
     ])
+  },
+  mounted () {
+    this.value = this.$mp.query.value
   },
   methods: {
     ...mapActions([

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @tap="toSelect(userBonus.id,userBonus.bonus.targetAmount)">
     <p class="bonus-name">优惠券</p>
     <div class="bonus-info">
       <p class="bonus-target">满¥{{userBonus.bonus.targetAmount}}减</p>
@@ -11,9 +11,28 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
-  props: ['userBonus'],
+  props: ['userBonus', 'query'],
   methods: {
+    ...mapMutations([
+      'set_bonus_id'
+    ]),
+    toSelect (id, targetAmount) {
+      if (this.query) {
+        if (Number(this.query) >= Number(targetAmount)) {
+          this.set_bonus_id(id)
+          wx.navigateBack({delta: 1})
+        } else {
+          wx.showToast({
+            title: '未达到目标金额', // 提示的内容,
+            icon: 'none',
+            duration: 1500, // 延迟时间,
+            mask: true // 显示透明蒙层，防止触摸穿透,
+          })
+        }
+      }
+    }
   }
 }
 </script>
@@ -67,7 +86,7 @@ export default {
   font-size: 60rpx;
   text-align: center;
   color: white;
-  background-color: rgb(0, 255, 179);
+  background-color: rgb(206, 28, 206);
   p {
     margin-top: 12rpx;
   }

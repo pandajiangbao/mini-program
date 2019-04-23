@@ -4,6 +4,9 @@ export default {
   [types.RECEIVE_USER_ID] (state, userId) {
     state.userId = userId
   },
+  [types.SET_IS_NEW_USER] (state) {
+    state.isNewUser = true
+  },
   [types.RECEIVE_USER_INFO] (state, userInfo) {
     if (userInfo) {
       state.userInfo = userInfo
@@ -40,6 +43,12 @@ export default {
   },
   [types.RECEIVE_ADDRESS] (state, addressList) {
     state.addressList = addressList
+  },
+  [types.SET_BONUS_ID] (state, bonusId) {
+    state.selectBonusId = bonusId
+  },
+  [types.CLEAR_BONUS_ID] (state) {
+    state.selectBonusId = null
   },
   [types.SET_ADDRESS_ID] (state, addressId) {
     state.selectAddressId = addressId
